@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CameraTest.h"
+#include "CameraPawn.h"
 
 // Sets default values
-ACameraTest::ACameraTest()
+ACameraPawn::ACameraPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,21 +12,21 @@ ACameraTest::ACameraTest()
 }
 
 // Called when the game starts or when spawned
-void ACameraTest::BeginPlay()
+void ACameraPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ACameraTest::Tick(float DeltaTime)
+void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Called to bind functionality to input
-void ACameraTest::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 

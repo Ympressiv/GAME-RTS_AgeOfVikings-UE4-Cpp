@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "CameraTest.generated.h"
+#include "CameraPawn.generated.h"
 
 UCLASS()
-class RTS_AOV_API ACameraTest : public APawn
+class RTS_AOV_API ACameraPawn : public APawn
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
-	ACameraTest();
+	ACameraPawn();
 
 protected:
 	// Called when the game starts or when spawned
