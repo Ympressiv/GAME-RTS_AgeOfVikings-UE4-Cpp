@@ -12,7 +12,6 @@ ACameraPawn::ACameraPawn()
 }
 
 // Called when the game starts or when spawned
-// test
 void ACameraPawn::BeginPlay()
 {
 	Super::BeginPlay();
