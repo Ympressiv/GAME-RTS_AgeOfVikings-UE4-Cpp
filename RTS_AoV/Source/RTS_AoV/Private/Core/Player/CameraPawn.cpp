@@ -25,10 +25,4 @@ void ACameraPawn::Tick(float DeltaTime)
 
 }
 
-// Called to bind functionality to input
-void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
 

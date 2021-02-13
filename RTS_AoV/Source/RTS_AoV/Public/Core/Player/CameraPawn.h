@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Pawn.h"
 #include "CameraPawn.generated.h"
 
@@ -12,18 +13,33 @@ class RTS_AOV_API ACameraPawn : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
+	/* Sets default values for this pawn's properties */
 	ACameraPawn();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
+	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+protected:
+	/* Called when the game starts or when spawned */
+	virtual void BeginPlay() override;
 
+	/* Collision sphere and root component */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Root Comp")
+	class USphereComponent* CollisionSphere;
+
+	/* Player Camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class UCameraComponent* PlayerCamera;
+
+	/* SpringArm or CameraArm */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class USpringArmComponent* CameraArm;
+
+	/* Default Camera Length */
+	UPROPERTY(BlueprintReadOnly, Category = "Movement Variables: Zoom")
+	float DefaultZoomLength;
+
+	/* Default Rotation */
+	UPROPERTY(BlueprintReadOnly, Category = "Movement Variables: Zoom")
+	FRotator DefaultRotation; 
 };
