@@ -19,6 +19,26 @@ public:
 	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 
+	// Getters
+	/* Return Camera */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Getters")
+	FORCEINLINE class UCameraComponent* GetCamera() const { return PlayerCamera; }
+
+	/* Reutrn CameraArm */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Getters")
+	FORCEINLINE class USpringArmComponent* GetCameraArm() const { return CameraArm; }
+
+	/* Return length of CameraArm */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Zoom")
+	float GetCurrentArmLength();
+
+	/* Return CameraArm rotation */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Camera Zoom")
+	FRotator GetCameraRotation();
+
+	//Setters
+	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
+
 protected:
 	/* Called when the game starts or when spawned */
 	virtual void BeginPlay() override;
@@ -41,5 +61,5 @@ protected:
 
 	/* Default Rotation */
 	UPROPERTY(BlueprintReadOnly, Category = "Movement Variables: Zoom")
-	FRotator DefaultRotation; 
+	FRotator DefaultCameraRotation; 
 };
