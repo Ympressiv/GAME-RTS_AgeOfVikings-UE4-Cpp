@@ -16,9 +16,37 @@ public:
 	/* Sets default values for this pawn's properties */
 	ACameraPawn();
 
+protected:
+	/* Called when the game starts or when spawned */
+	virtual void BeginPlay() override;
+
+public:
 	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+
+	/* Collision sphere and root component */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Root Comp")
+	class USphereComponent* CollisionSphere;
+
+	/* Player Camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class UCameraComponent* PlayerCamera;
+
+	/* SpringArm or CameraArm */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class USpringArmComponent* CameraArm;
+
+	/* Default Camera Length */
+	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadOnly)
+	float DefaultZoomLength;
+
+	/* Default Rotation */
+	UPROPERTY(Category = "Movement Variables: Zoom", BlueprintReadOnly)
+	FRotator DefaultCameraRotation;
+
+public:
 	// Getters
 	/* Return Camera */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Getters")
@@ -38,28 +66,11 @@ public:
 
 	//Setters
 	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
+	virtual void SetArmLength(float ChangeAmount);
 
-protected:
-	/* Called when the game starts or when spawned */
-	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
+	virtual void SetArmRotation(FRotator ChangeAmount);
 
-	/* Collision sphere and root component */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Root Comp")
-	class USphereComponent* CollisionSphere;
-
-	/* Player Camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class UCameraComponent* PlayerCamera;
-
-	/* SpringArm or CameraArm */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class USpringArmComponent* CameraArm;
-
-	/* Default Camera Length */
-	UPROPERTY(BlueprintReadOnly, Category = "Movement Variables: Zoom")
-	float DefaultZoomLength;
-
-	/* Default Rotation */
-	UPROPERTY(BlueprintReadOnly, Category = "Movement Variables: Zoom")
-	FRotator DefaultCameraRotation; 
+	UFUNCTION(BlueprintCallable, Category = "Camera Zoom")
+	virtual void SetToDefaultZoom();
 };
