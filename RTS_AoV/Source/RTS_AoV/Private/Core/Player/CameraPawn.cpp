@@ -62,4 +62,35 @@ void ACameraPawn::Tick(float DeltaTime)
 
 }
 
+float ACameraPawn::GetCurrentArmLength()
+{
+	return CameraArm->TargetArmLength;
+}
+FRotator ACameraPawn::GetCameraRotation()
+{
+	return CameraArm->GetRelativeRotation();
+}
+void ACameraPawn::SetArmLength(float ChangeAmount)
+{
+	CameraArm->TargetArmLength += ChangeAmount;
+}
+void ACameraPawn::SetArmRotation(FRotator ChangeAmount)
+{
+	/* Setting our min and max rotation amounts */
+	/* How close to the ground camera gone get*/ 
+	const FRotator RotationMax = FRotator(-25.0, 0.0, 0.0); //Zoom in rotation max
+	const FRotator RotationMin = DefaultCameraRotation; // Zoom out rotation min
 
+	// Get 'x', the rotation change
+	FRotator NewRotation = FRotator(CameraArm->GetRelativeRotation() + ChangeAmount);
+
+	// Clamp the pitch of NewRotation
+	NewRotation = NewRotation.Pitch < RotationMin.Pitch ? RotationMin : NewRotation.Pitch < RotationMax.Pitch ? NewRotation : RotationMax;
+
+	CameraArm->SetRelativeRotation(NewRotation); // CameraArm->RelativeRotation
+}
+void ACameraPawn::SetToDefaultZoom()
+{
+	CameraArm->TargetArmLength = DefaultZoomLength;
+	CameraArm->SetRelativeRotation(DefaultCameraRotation);
+}
