@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/SphereComponent.h"
 #include "Camera/CameraComponent.h"
+#include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Player/CameraMovement_Component.h"
 #include "GameFramework/Pawn.h"
 
 // Sets default values
@@ -46,6 +47,9 @@ ACameraPawn::ACameraPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	// Attach movement component
+	PawnMovementComponent = CreateDefaultSubobject<UCameraMovement_Component>(TEXT("CameraPawnMovementComponent"));
 }
 
 // Called when the game starts or when spawned

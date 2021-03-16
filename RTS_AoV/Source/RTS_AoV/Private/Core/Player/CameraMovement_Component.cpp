@@ -205,19 +205,53 @@ void UCameraMovement_Component::EdgeScroll()
 		CameraOwner->AddActorLocalOffset(MovementY, true);
 		SetCameraDisable(true);
 	}
-}
+	else if (ProportionY >= .975) //Bottom
+	{
+		DeltaSpeedX = 0;
+		DeltaSpeedY = -10.0f * GetSpeedModifier();
 
+		MovementY = FVector(DeltaSpeedY, 0.0f, 0.0f);
+
+		CameraOwner->AddActorLocalOffset(MovementY, true);
+		SetCameraDisable(true);
+	}
+	else if (ProportionY <= .025) //Top 
+	{
+		DeltaSpeedX = 0;
+		DeltaSpeedY = 10.0f * GetSpeedModifier();
+
+		MovementY = FVector(DeltaSpeedY, 0.0f, 0.0f);
+
+		CameraOwner->AddActorLocalOffset(MovementY, true);
+		SetCameraDisable(true);
+	}
+}
+/*Zoom In*/
 void UCameraMovement_Component::ZoomIn()
 {
-
+	if (CameraOwner->GetCurrentArmLength() != MaxZoom)
+	{
+		CameraOwner->SetArmLength(-1.0f * DeltaArm);
+		if (CameraOwner->GetCurrentArmLength() <= DefaultZoomLength)
+		{
+			CameraOwner->SetArmRotation(DeltaRotation);
+		}
+	}
 }
-
+/*Zoom Out*/
 void UCameraMovement_Component::ZoomOut()
 {
-
+	if (CameraOwner->GetCurrentArmLength() != MinZoom)
+	{
+		CameraOwner->SetArmLength(DeltaArm);
+		if (CameraOwner->GetCurrentArmLength() <= DefaultZoomLength)
+		{
+			CameraOwner->SetArmRotation(-1.0f * DeltaRotation);
+		}
+	}
 }
-
+/*Zoom Reset*/
 void UCameraMovement_Component::DefaultZoom()
 {
-
+	CameraOwner->SetToDefaultZoom();
 }

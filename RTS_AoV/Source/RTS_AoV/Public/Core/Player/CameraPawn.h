@@ -7,6 +7,8 @@
 #include "GameFramework/Pawn.h"
 #include "CameraPawn.generated.h"
 
+class UCameraMovement_Component;
+
 UCLASS()
 class RTS_AOV_API ACameraPawn : public APawn
 {
@@ -21,6 +23,10 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	/* Camera Movement Component declaration */
+	UPROPERTY(Category = "Movement Component", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UCameraMovement_Component* PawnMovementComponent;
+
 	/* Called every frame */
 	virtual void Tick(float DeltaTime) override;
 

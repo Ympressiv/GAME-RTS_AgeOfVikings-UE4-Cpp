@@ -26,7 +26,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	/*Get Attached Pawn*/
-	UPROPERTY(Transient, EditAnywhere, BluepriReadWrite)
+	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite)
 	ACameraPawn* CameraOwner;
 
 	/*Characeter controller refrence*/
