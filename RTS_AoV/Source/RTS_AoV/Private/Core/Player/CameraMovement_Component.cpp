@@ -225,6 +225,13 @@ void UCameraMovement_Component::EdgeScroll()
 		CameraOwner->AddActorLocalOffset(MovementY, true);
 		SetCameraDisable(true);
 	}
+	else
+	{
+		DeltaSpeedX = 0;
+		DeltaSpeedY = 0;
+
+		SetCameraDisable(false);
+	}
 }
 /*Zoom In*/
 void UCameraMovement_Component::ZoomIn()
