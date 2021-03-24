@@ -21,8 +21,7 @@ ACameraPawn::ACameraPawn()
 	SetRootComponent(CollisionSphere);
 	CollisionSphere->InitSphereRadius(32.0);
 	CollisionSphere->SetWorldScale3D(FVector(0.25, 0.25, 0.25));
-	
-	// The collision profile name - used for map boundries.
+	CollisionSphere->SetCollisionProfileName("CameraPawn");
 
 	// Default settings for inheriting controller rotations.
 	bUseControllerRotationPitch = false;
