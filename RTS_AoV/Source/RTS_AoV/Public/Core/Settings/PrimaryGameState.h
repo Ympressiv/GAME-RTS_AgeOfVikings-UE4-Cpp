@@ -31,7 +31,7 @@ protected:
 	int Years;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
-	int Months
+	int Months;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
 	int Days;
@@ -42,13 +42,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
 	int DayCounter;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Clock");
 	int Hours;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Clock");
 	int Minutes;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Clock");
 	int Seconds;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Speed Setting");
