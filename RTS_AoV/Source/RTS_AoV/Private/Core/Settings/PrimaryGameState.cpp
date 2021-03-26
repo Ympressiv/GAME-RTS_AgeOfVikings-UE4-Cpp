@@ -2,6 +2,7 @@
 
 
 #include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Settings/PrimaryGameState.h"
+#include "Misc/DateTime.h"
 
 /*Constructor*/
 APrimaryGameState::APrimaryGameState()
@@ -32,7 +33,7 @@ APrimaryGameState::APrimaryGameState()
 
 	GameSpeed = 60;
 	GameTime = (Hours + (Minutes / float(60.0f)) + (Seconds / float(3600.0f)));
-	DateTimeStruct = (Years, Months, Days, Seconds);
+	DateTimeStruct = (Years, Months, Days, Hours, Minutes, Seconds);
 
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -50,6 +51,48 @@ void APrimaryGameState::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (GameSpeed != 0)
 	{
-
+		CalculateTime(DeltaTime, GameSpeed, GameTime, GameTime, DayCounter);
+		SetClockCalendar();
 	}
+}
+
+void APrimaryGameState::CalculateTime(float DeltaTime, float CurrentGameSpeed, float GameTimeIn, float& GameTimeOut, int& DayCounterOut)
+{
+	GameTime = fmod(((DeltaTime / CurrentGameSpeed) + GameTimeIn), 24.0);
+	DayCounter = (((DeltaTime / CurrentGameSpeed) + GameTimeIn) / 24.0);
+	GameTimeOut = GameTime; //For BP use only
+	DayCounterOut = DayCounter; //For BP use only
+}
+
+void APrimaryGameState::SetClockCalendar()
+{
+	//Calculate Seconds, Minutes, Hours
+	float InitialConversion = GameTime * 3600.0f;
+	Seconds = floor(fmod(InitialConversion, 60));
+	Minutes = floor(fmod(int(InitialConversion / 60), 60.0));
+	Hours = floor(fmod(int((InitialConversion / 60) / 60), 24.0));
+
+	//Set Calendar
+	DayOfWeek += DayCounter;
+	if (DayOfWeek > 7)
+	{
+		DayOfWeek = 1;
+	}
+	Days += DayCounter;
+	if (Days > DateTimeStruct.DaysInMonth(Years, Months))
+	{
+		Days = 1;
+		Months++; 
+	}
+	if (Months > 12)
+	{
+		Months = 1;
+		Years++;
+	}
+	SetDateTime(Years, Months, Days, Hours, Minutes, Seconds);
+}
+
+void APrimaryGameState::SetDateTime(UPARAM(ref) int& Year, UPARAM(ref) int& Month, UPARAM(ref) int& Day, UPARAM(ref) int& Hour, UPARAM(ref) int& Minute, UPARAM(ref) int& Second)
+{
+	DateTimeStruct = (Year, Month, Day, Hour, Minute, Second); //1:33:00
 }

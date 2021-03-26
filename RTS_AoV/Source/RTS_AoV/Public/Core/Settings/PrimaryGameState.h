@@ -59,4 +59,14 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Speed Setting");
 	FDateTime DateTimeStruct;
+
+//Methods
+	UFUNCTION(BlueprintCallable, Category = "GameTime")
+	virtual void CalculateTime(float DeltaTime, float CurrentGameSpeed, float GameTimeIn, float& GameTimeOut, int& DayCounterOut);
+
+	UFUNCTION(BlueprintCallable, Category = "GameTime")
+	virtual void SetClockCalendar();
+
+	UFUNCTION(BlueprintCallable, Category = "GameTime")
+	virtual void SetDateTime(UPARAM(ref) int& Year, UPARAM(ref) int& Month, UPARAM(ref) int& Day, UPARAM(ref) int& Hour, UPARAM(ref) int& Minute, UPARAM(ref) int& Second);
 };
