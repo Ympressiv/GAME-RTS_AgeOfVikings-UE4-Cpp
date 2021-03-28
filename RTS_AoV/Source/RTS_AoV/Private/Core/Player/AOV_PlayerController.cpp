@@ -62,7 +62,6 @@ void AAOV_PlayerController::SetupInputComponent()
 	InputComponent->BindAction("ZoomOut", IE_Pressed, this, &AAOV_PlayerController::CallZoomOut);
 	/*ZoomReset*/
 	InputComponent->BindAction("ResetZoom", IE_Pressed, this, &AAOV_PlayerController::CallZoomReset);
-	 
 }
 
 void AAOV_PlayerController::CallMoveForward(float Value)

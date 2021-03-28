@@ -26,7 +26,6 @@ public:
 
 //Attributes
 protected:
-	/*Controler REF - Do later*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Calendar");
 	int Years;
 

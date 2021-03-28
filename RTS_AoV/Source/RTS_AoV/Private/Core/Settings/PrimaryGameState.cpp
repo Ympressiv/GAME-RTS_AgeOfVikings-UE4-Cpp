@@ -3,6 +3,7 @@
 
 #include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Settings/PrimaryGameState.h"
 #include "Misc/DateTime.h"
+#include "Engine/Engine.h"
 
 /*Constructor*/
 APrimaryGameState::APrimaryGameState()
@@ -12,14 +13,14 @@ APrimaryGameState::APrimaryGameState()
 	/*Calendar*/
 	Years = 2021;
 	Months = 03;
-	Days = 25;
-	DayOfWeek = 4; //Thursday
+	Days = 31;
+	DayOfWeek = 3;
 	DayCounter = 0;
 
 	/*Clock*/
-	Hours = 10;
-	Minutes = 15;
-	Seconds = 15;
+	Hours = 23;
+	Minutes = 59;
+	Seconds = 0;
 
 	/*Game Speed Settings*/
 	/*
@@ -54,6 +55,9 @@ void APrimaryGameState::Tick(float DeltaTime)
 		CalculateTime(DeltaTime, GameSpeed, GameTime, GameTime, DayCounter);
 		SetClockCalendar();
 	}
+	//UE_LOG(LogTemp, Warning, TEXT("%i : %i : %i - godzina, minuta, sekunda "), Hours, Minutes, Seconds);
+	//UE_LOG(LogTemp, Warning, TEXT("%i : %i : %i - dzien, miesiac, rok"), Days, Months, Years);
+	UE_LOG(LogTemp, Warning, TEXT("%i"), DateTimeStruct.GetHour12());
 }
 
 void APrimaryGameState::CalculateTime(float DeltaTime, float CurrentGameSpeed, float GameTimeIn, float& GameTimeOut, int& DayCounterOut)
@@ -94,5 +98,6 @@ void APrimaryGameState::SetClockCalendar()
 
 void APrimaryGameState::SetDateTime(UPARAM(ref) int& Year, UPARAM(ref) int& Month, UPARAM(ref) int& Day, UPARAM(ref) int& Hour, UPARAM(ref) int& Minute, UPARAM(ref) int& Second)
 {
-	DateTimeStruct = (Year, Month, Day, Hour, Minute, Second); //1:33:00
+	DateTimeStruct = (Year, Month, Day, Hour, Minute, Second);
 }
+
