@@ -14,7 +14,7 @@ ACameraPawn::ACameraPawn()
 {
 	// Set Defaults
 	DefaultZoomLength = 1350.0f;
-	DefaultCameraRotation = FRotator(-75.0, 0.0, 0.0);
+	DefaultCameraRotation = FRotator(-50.0, 0.0, 0.0);
 
 	// Set Root Component and also set root component size.
 	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphere"));
