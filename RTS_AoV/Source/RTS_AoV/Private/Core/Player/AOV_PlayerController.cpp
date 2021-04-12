@@ -4,6 +4,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Components/InputComponent.h"
 #include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Player/CameraMovement_Component.h"
+#include "Math/TransformNonVectorized.h"
 
 AAOV_PlayerController::AAOV_PlayerController()
 {
@@ -11,6 +12,9 @@ AAOV_PlayerController::AAOV_PlayerController()
 	We can turn off as we needed */
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	/*Change class od UnitMaster - switch for C++ or BP Unit*/
+	UnitToSpawn_Class = AAOV_UnitMaster::StaticClass();
 }
 
 /*Begin Play*/
@@ -30,6 +34,9 @@ void AAOV_PlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	CameraMovementRef->EdgeScroll();
+
+	UE_LOG(LogTemp, Warning, TEXT("Vector: %s"), *SetCursorWorldPositionRef.ToString());
+	
 }
 
 void AAOV_PlayerController::SetupInputComponent()
@@ -62,6 +69,8 @@ void AAOV_PlayerController::SetupInputComponent()
 	InputComponent->BindAction("ZoomOut", IE_Pressed, this, &AAOV_PlayerController::CallZoomOut);
 	/*ZoomReset*/
 	InputComponent->BindAction("ResetZoom", IE_Pressed, this, &AAOV_PlayerController::CallZoomReset);
+	/*UnitTest*/
+	InputComponent->BindAction("UnitTest", IE_Pressed, this, &AAOV_PlayerController::CallUnitTest);
 }
 
 void AAOV_PlayerController::CallMoveForward(float Value)
@@ -112,4 +121,22 @@ void AAOV_PlayerController::CallZoomOut()
 void AAOV_PlayerController::CallZoomReset()
 {
 	CameraMovementRef->DefaultZoom();
+}
+
+void AAOV_PlayerController::CallUnitTest()
+{
+	//Attributes
+	SightDistance = 1200.0f;
+	SetCursorWorldPositionRef = FuncLibRef->SetCursorWorldPosition(this, SightDistance, RelativeCursorsLocationInGame);
+
+	FVector Location (SetCursorWorldPositionRef.X, SetCursorWorldPositionRef.Y, 150.0f); 
+	FRotator Rotation(0.0f, 0.0f, 0.0f); 
+
+	//Methods
+	/*Spawn Unit*/
+	SpawnedUnit = Cast<AAOV_UnitMaster>(GetWorld()->SpawnActor<AActor>(UnitToSpawn_Class, Location, Rotation));
+	if (SpawnedUnit != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Set Owner Called"));
+	}
 }

@@ -10,20 +10,10 @@
 AAOV_UnitMaster::AAOV_UnitMaster()
 {
 	// Set size for player capsule
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-
-	// Don't rotate character to camera direction
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
-
-	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
-	GetCharacterMovement()->bConstrainToPlane = true;
-	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+	GetCapsuleComponent()->InitCapsuleSize(100.0f, 62.0f);
 
 	// Create a decal in the world to show the cursor's location
+	/*Selected Decal*/
 	SelectedDecal = CreateDefaultSubobject<UDecalComponent>("SelectedDecal");
 	SelectedDecal->SetupAttachment(RootComponent);
 	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/Materials/GoodSelectionDecal'"));
@@ -33,6 +23,17 @@ AAOV_UnitMaster::AAOV_UnitMaster()
 	}
 	SelectedDecal->DecalSize = FVector(16.0f, 32.0f, 32.0f);
 	SelectedDecal->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
+
+	/*Deselected Decal*/
+	DeselectedDecal = CreateDefaultSubobject<UDecalComponent>("DeselectedDecal");
+	DeselectedDecal->SetupAttachment(RootComponent);
+	static ConstructorHelpers::FObjectFinder<UMaterial> DeDecalMaterialAsset(TEXT("Material'/Game/Materials/BadSelectionDecal'"));
+	if (DeDecalMaterialAsset.Succeeded())
+	{
+		DeselectedDecal->SetDecalMaterial(DeDecalMaterialAsset.Object);
+	}
+	DeselectedDecal->DecalSize = FVector(16.0f, 32.0f, 32.0f);
+	DeselectedDecal->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
 
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;

@@ -14,6 +14,7 @@ class RTS_AOV_API UAOV_FuncLib : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
-		UFUNCTION(BlueprintCallable, Category = "Cursor")
-		static void SetCursorWorldPlacement(APlayerController* PlayerControllerRef, float SightDistance);
+public:
+		UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Placements")
+		static FVector SetCursorWorldPosition(APlayerController* PlayerControllerRef, float SightDistance, FVector& RelativeCursorsLocationInGame);
 };

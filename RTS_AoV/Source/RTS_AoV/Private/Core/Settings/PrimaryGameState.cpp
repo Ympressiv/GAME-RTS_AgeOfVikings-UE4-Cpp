@@ -57,7 +57,7 @@ void APrimaryGameState::Tick(float DeltaTime)
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("%i : %i : %i - godzina, minuta, sekunda "), Hours, Minutes, Seconds);
 	//UE_LOG(LogTemp, Warning, TEXT("%i : %i : %i - dzien, miesiac, rok"), Days, Months, Years);
-	UE_LOG(LogTemp, Warning, TEXT("%i"), DateTimeStruct.GetHour12());
+	//UE_LOG(LogTemp, Warning, TEXT("%i"), DateTimeStruct.GetHour12());
 }
 
 void APrimaryGameState::CalculateTime(float DeltaTime, float CurrentGameSpeed, float GameTimeIn, float& GameTimeOut, int& DayCounterOut)

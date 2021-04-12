@@ -20,9 +20,16 @@ public:
 	/** Returns SelectedDecal subobject **/
 	FORCEINLINE class UDecalComponent* GetSelectedDecal() { return SelectedDecal; }
 
+	/** Returns DeselectedDecal subobject **/
+	FORCEINLINE class UDecalComponent* GetDeselectedDecal() { return DeselectedDecal; }
+
 private:
-	/** A decal that projects to the cursor location. */
+	/** A selected decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UDecalComponent* SelectedDecal;
+	class UDecalComponent* SelectedDecal;
+
+	/** A deselected decal that projects to the cursor location. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UDecalComponent* DeselectedDecal;
 };
 

@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/FuncLib/AOV_FuncLib.h"
+#include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Units/AOV_UnitMaster.h"
 #include "CoreMinimal.h"
 #include "CameraPawn.h"
 #include "GameFramework/PlayerController.h"
@@ -49,13 +51,39 @@ public:
 
 	virtual void CallZoomReset();
 
+	virtual void CallUnitTest();
+
 	/*Attributes*/
 
+	/*Output of SetCursorWorldPosition*/
+	FVector RelativeCursorsLocationInGame;
+
+	/*Refrence to SetCursorWorldPosition*/
+	FVector SetCursorWorldPositionRef;
+
+	/*Unit Spawn Params*/
+	FActorSpawnParameters UnitSpawnParams;
+
+	/*Sight Distance*/
+	float SightDistance;
+
 	/*This is a refrence to the Camera Pawn*/
-	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite)
-	ACameraPawn* CameraPawnRef;
+	UPROPERTY(Transient)
+	ACameraPawn* CameraPawnRef = nullptr;
 
 	/*This is a refrence to the Camera Movement Component */
-	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite)
-	UCameraMovement_Component* CameraMovementRef;
+	UPROPERTY(Transient)
+	UCameraMovement_Component* CameraMovementRef = nullptr;
+
+	/*This is a refrence to the Function Library*/
+	UPROPERTY()
+	UAOV_FuncLib* FuncLibRef;
+
+	/*This is a refrence to the Unit Master*/
+	UPROPERTY()
+	AAOV_UnitMaster* SpawnedUnit;
+
+	/*This is a refrence to the Unit Master*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AAOV_UnitMaster> UnitToSpawn_Class;
 };
