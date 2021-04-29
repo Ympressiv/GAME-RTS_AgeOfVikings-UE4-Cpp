@@ -5,6 +5,8 @@
 #include "Components/InputComponent.h"
 #include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Player/CameraMovement_Component.h"
 #include "Math/TransformNonVectorized.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "RTS_AoV/Public/Core/Interface/AOV_MarqueeSelection_IF.h"
 
 AAOV_PlayerController::AAOV_PlayerController()
 {
@@ -25,7 +27,8 @@ void AAOV_PlayerController::BeginPlay()
 	/*Refrence casts*/
 	CameraPawnRef = Cast<ACameraPawn>(GetPawn()); //Get camera pawn
 	CameraMovementRef = CameraPawnRef->PawnMovementComponent;
-
+	MarqueeSelectionRef = Cast<AAOV_MarqueeSelection>(GetHUD());
+	MarqueeSelectionInterface_Ref = Cast<IAOV_MarqueeSelection_IF>(MarqueeSelectionRef);
 	/*Show Mouse*/
 	bShowMouseCursor = true;
 }
@@ -37,6 +40,10 @@ void AAOV_PlayerController::Tick(float DeltaTime)
 
 	UE_LOG(LogTemp, Warning, TEXT("Vector: %s"), *SetCursorWorldPositionRef.ToString());
 	
+	if (bIsHoldingInput)
+	{
+		UpdateSelection(DeltaTime);
+	}
 }
 
 void AAOV_PlayerController::SetupInputComponent()
@@ -71,6 +78,11 @@ void AAOV_PlayerController::SetupInputComponent()
 	InputComponent->BindAction("ResetZoom", IE_Pressed, this, &AAOV_PlayerController::CallZoomReset);
 	/*UnitTest*/
 	InputComponent->BindAction("UnitTest", IE_Pressed, this, &AAOV_PlayerController::CallUnitTest);
+	/*Pressed - Clicking Mouse - Marquee Selection*/
+	InputComponent->BindAction("PrimaryAction", IE_Pressed, this, &AAOV_PlayerController::CallPrimaryAction_Pressed);
+	/*Released - Marquee Selection*/
+	InputComponent->BindAction("PrimaryAction", IE_Released, this, &AAOV_PlayerController::CallPrimaryAction_Released);
+
 }
 
 void AAOV_PlayerController::CallMoveForward(float Value)
@@ -126,17 +138,42 @@ void AAOV_PlayerController::CallZoomReset()
 void AAOV_PlayerController::CallUnitTest()
 {
 	//Attributes
+	/*Highest of trace*/
 	SightDistance = 1200.0f;
+	/*Refrence to the localization of mouse*/
 	SetCursorWorldPositionRef = FuncLibRef->SetCursorWorldPosition(this, SightDistance, RelativeCursorsLocationInGame);
-
+	/*Unit localization*/
 	FVector Location (SetCursorWorldPositionRef.X, SetCursorWorldPositionRef.Y, 150.0f); 
-	FRotator Rotation(0.0f, 0.0f, 0.0f); 
+	/*Unit rotation*/
+	FRotator Rotation(0.0f, 90.0f, 0.0f); 
 
 	//Methods
 	/*Spawn Unit*/
 	SpawnedUnit = Cast<AAOV_UnitMaster>(GetWorld()->SpawnActor<AActor>(UnitToSpawn_Class, Location, Rotation));
 	if (SpawnedUnit != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Set Owner Called"));
+		UE_LOG(LogTemp, Warning, TEXT("Actor is spawned :)"));
+	}
+}
+
+void AAOV_PlayerController::CallPrimaryAction_Pressed()
+{
+	MarqueeSelectionInterface_Ref->Execute_OnInputStart(MarqueeSelectionRef);
+	HoldingTime = 0.0f;
+	bIsHoldingInput = true;
+}
+
+void AAOV_PlayerController::CallPrimaryAction_Released()
+{
+	MarqueeSelectionInterface_Ref->Execute_OnInputRelease(MarqueeSelectionRef, HoldingTime);
+	bIsHoldingInput = false;
+}
+
+void AAOV_PlayerController::UpdateSelection(float DeltaTime)
+{
+	if (bIsHoldingInput)
+	{
+		MarqueeSelectionInterface_Ref->Execute_OnInputHold(MarqueeSelectionRef);
+		HoldingTime = HoldingTime + DeltaTime;
 	}
 }

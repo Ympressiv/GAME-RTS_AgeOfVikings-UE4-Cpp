@@ -7,6 +7,7 @@
 #include "CoreMinimal.h"
 #include "CameraPawn.h"
 #include "GameFramework/PlayerController.h"
+#include "RTS_AoV/Public/Core/HUD/AOV_MarqueeSelection.h"
 #include "AOV_PlayerController.generated.h"
 
 /**
@@ -53,6 +54,10 @@ public:
 
 	virtual void CallUnitTest();
 
+	virtual void CallPrimaryAction_Pressed();
+
+	virtual void CallPrimaryAction_Released();
+
 	/*Attributes*/
 
 	/*Output of SetCursorWorldPosition*/
@@ -60,9 +65,6 @@ public:
 
 	/*Refrence to SetCursorWorldPosition*/
 	FVector SetCursorWorldPositionRef;
-
-	/*Unit Spawn Params*/
-	FActorSpawnParameters UnitSpawnParams;
 
 	/*Sight Distance*/
 	float SightDistance;
@@ -86,4 +88,20 @@ public:
 	/*This is a refrence to the Unit Master*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AAOV_UnitMaster> UnitToSpawn_Class;
+
+	/*This is a refrence to the MarqueeSelection*/
+	UPROPERTY()
+	AAOV_MarqueeSelection* MarqueeSelectionRef;
+
+	/*This is a refrence to the MarqueeSelectionInterface_Ref*/
+	IAOV_MarqueeSelection_IF* MarqueeSelectionInterface_Ref;
+
+	UFUNCTION()
+	void UpdateSelection(float DeltaTime);
+
+	/*Holding pressed LeftMouseButton*/
+	float HoldingTime;
+
+	/*Player is holding input?*/
+	bool bIsHoldingInput;
 };
