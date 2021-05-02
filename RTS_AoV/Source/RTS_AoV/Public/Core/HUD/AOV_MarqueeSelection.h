@@ -7,6 +7,8 @@
 #include "../Interface/AOV_MarqueeSelection_IF.h"
 #include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Units/AOV_UnitMaster.h"
 #include "GameFramework/HUD.h"
+#include "RendererInterface.h"
+#include "GameFramework/PlayerController.h"
 #include "AOV_MarqueeSelection.generated.h"
 
 /**
@@ -35,6 +37,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Units")
 	TArray<AAOV_UnitMaster*> SelectedUnits;
 
+	/*This is a refrence to the UnitMaster*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
+	AAOV_UnitMaster* UnitMasterRef;
+
 	/*Localization of Mouse cursor*/
 	float MouseLocationX;
 	float MouseLocationY;
@@ -47,12 +53,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bool")
 	bool bIsDrawing;
 
-	/*Received HUD*/
-	void ReceiveDrawHUD();
+	/*Draw HUD*/
+	void DrawHUD() override;
 
-	int32 SizeX;
-	int32 SizeY;
-
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void DrawMarquee();
 };

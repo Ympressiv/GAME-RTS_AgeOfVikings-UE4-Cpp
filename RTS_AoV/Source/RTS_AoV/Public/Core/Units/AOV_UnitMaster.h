@@ -23,6 +23,18 @@ public:
 	/** Returns DeselectedDecal subobject **/
 	FORCEINLINE class UDecalComponent* GetDeselectedDecal() { return DeselectedDecal; }
 
+	/*Set selected decal*/
+	UFUNCTION(BlueprintCallable, Category = "UnitSelection")
+	void SetSelectedDecal();
+
+	/*Set deselected decal*/
+	UFUNCTION(BlueprintCallable, Category = "UnitSelection")
+	void SetDeselectedDecal();
+
+	/*Check if unit is selected*/
+	UPROPERTY(EditAnywhere, Category = "Bool")
+	bool bIsSelected;
+
 private:
 	/** A selected decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))

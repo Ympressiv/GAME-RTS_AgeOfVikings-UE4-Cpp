@@ -177,3 +177,8 @@ void AAOV_PlayerController::UpdateSelection(float DeltaTime)
 		HoldingTime = HoldingTime + DeltaTime;
 	}
 }
+
+void AAOV_PlayerController::SetSelectedUnits(TArray<AAOV_UnitMaster*> SelectedUnits)
+{
+
+}

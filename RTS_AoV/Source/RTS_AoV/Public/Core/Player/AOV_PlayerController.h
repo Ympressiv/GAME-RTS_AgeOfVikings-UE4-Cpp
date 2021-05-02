@@ -99,9 +99,15 @@ public:
 	UFUNCTION()
 	void UpdateSelection(float DeltaTime);
 
+	/*Set selected units*/
+	UFUNCTION(BlueprintCallable, Category = "UnitControl")
+	void SetSelectedUnits(TArray<AAOV_UnitMaster*> SelectedUnits);
+
 	/*Holding pressed LeftMouseButton*/
+	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
 	float HoldingTime;
 
 	/*Player is holding input?*/
+	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
 	bool bIsHoldingInput;
 };

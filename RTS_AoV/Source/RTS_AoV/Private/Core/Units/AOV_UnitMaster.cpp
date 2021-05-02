@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Materials/Material.h"
+#include "Components/SceneComponent.h"
 #include "Engine/World.h"
 
 AAOV_UnitMaster::AAOV_UnitMaster()
@@ -44,4 +45,42 @@ void AAOV_UnitMaster::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 
+}
+
+void AAOV_UnitMaster::SetSelectedDecal()
+{
+	/*Visibility*/
+	/*Set New Visibility*/
+	bool bNewVisibility;
+	/*Propagate to children*/
+	bool bPropagateToChildren;
+
+	/*Hidden In Game*/
+	/*New Hidden*/
+	bool bNewHidden;
+
+	DeselectedDecal->SetVisibility(bNewVisibility = false, bPropagateToChildren = false);
+	DeselectedDecal->SetHiddenInGame(bNewHidden = true, bPropagateToChildren = false);
+
+	SelectedDecal->SetVisibility(bNewVisibility = true, bPropagateToChildren = false);
+	SelectedDecal->SetHiddenInGame(bNewHidden = false, bPropagateToChildren = false);
+}
+
+void AAOV_UnitMaster::SetDeselectedDecal()
+{
+	/*Visibility*/
+	/*Set New Visibility*/
+	bool bNewVisibility;
+	/*Propagate to children*/
+	bool bPropagateToChildren;
+
+	/*Hidden In Game*/
+	/*New Hidden*/
+	bool bNewHidden;
+
+	SelectedDecal->SetVisibility(bNewVisibility = false, bPropagateToChildren = false);
+	SelectedDecal->SetHiddenInGame(bNewHidden = true, bPropagateToChildren = false);
+
+	DeselectedDecal->SetVisibility(bNewVisibility = true, bPropagateToChildren = false);
+	DeselectedDecal->SetHiddenInGame(bNewHidden = false, bPropagateToChildren = false);
 }
