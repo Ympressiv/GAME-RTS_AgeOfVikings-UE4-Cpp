@@ -25,13 +25,13 @@ FVector UAOV_FuncLib::SetCursorWorldPosition(APlayerController* PlayerController
 
 	/*Line Trace By Channel*/
 	bool bHit = GEngine->GameViewport->GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
-	DrawDebugLine(GEngine->GameViewport->GetWorld(), Start, End, FColor::Green, true, 2.0f);
+	/*DrawDebugLine(GEngine->GameViewport->GetWorld(), Start, End, FColor::Green, true, 2.0f);*/
 
 	/*Statement*/
 	if (bHit) //Musimy w ifach mieæ warunek bool
 	{
 		OUT RelativeCursorsLocationInGame = Hit.ImpactPoint;
-		DrawDebugBox(GEngine->GameViewport->GetWorld(), RelativeCursorsLocationInGame, FVector(5, 5, 5), FColor::Green, true, 2.0f);
+		DrawDebugBox(GEngine->GameViewport->GetWorld(), RelativeCursorsLocationInGame, FVector(0, 0, 0), FColor::Green, false, 2.0f);
 	}
 
 	return OUT RelativeCursorsLocationInGame;

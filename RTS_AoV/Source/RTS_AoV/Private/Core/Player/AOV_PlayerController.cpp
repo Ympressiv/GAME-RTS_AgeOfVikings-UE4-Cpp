@@ -7,6 +7,14 @@
 #include "Math/TransformNonVectorized.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "RTS_AoV/Public/Core/Interface/AOV_MarqueeSelection_IF.h"
+#include "Components/DecalComponent.h"
+#include "Materials/MaterialInterface.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "AIController.h"
+#include "Kismet/GameplayStatics.h"
+
+class UGameplayStatics;
+class UAIBlueprintHelperLibrary;
 
 AAOV_PlayerController::AAOV_PlayerController()
 {
@@ -17,6 +25,12 @@ AAOV_PlayerController::AAOV_PlayerController()
 
 	/*Change class od UnitMaster - switch for C++ or BP Unit*/
 	UnitToSpawn_Class = AAOV_UnitMaster::StaticClass();
+
+	/*Material of Decal*/
+	static ConstructorHelpers::FObjectFinder<UMaterial> MovementDecalMaterial(TEXT("Material'/Game/Materials/MovementLocationDecal'"));
+
+	/*Convert Material to Object (instance)*/
+	MovementDecal = MovementDecalMaterial.Object;
 }
 
 /*Begin Play*/
@@ -82,6 +96,8 @@ void AAOV_PlayerController::SetupInputComponent()
 	InputComponent->BindAction("PrimaryAction", IE_Pressed, this, &AAOV_PlayerController::CallPrimaryAction_Pressed);
 	/*Released - Marquee Selection*/
 	InputComponent->BindAction("PrimaryAction", IE_Released, this, &AAOV_PlayerController::CallPrimaryAction_Released);
+	/* Pressed - SecondaryAction*/
+	InputComponent->BindAction("SecondaryAction", IE_Pressed, this, &AAOV_PlayerController::CallSecondaryAction_Pressed);
 
 }
 
@@ -143,7 +159,7 @@ void AAOV_PlayerController::CallUnitTest()
 	/*Refrence to the localization of mouse*/
 	SetCursorWorldPositionRef = FuncLibRef->SetCursorWorldPosition(this, SightDistance, RelativeCursorsLocationInGame);
 	/*Unit localization*/
-	FVector Location (SetCursorWorldPositionRef.X, SetCursorWorldPositionRef.Y, 150.0f); 
+	FVector Location (SetCursorWorldPositionRef.X, SetCursorWorldPositionRef.Y, 150.0f); /*Warownia: (X = 689.0f, Y = 1123.0f, Z = 150.0f)*/
 	/*Unit rotation*/
 	FRotator Rotation(0.0f, 90.0f, 0.0f); 
 
@@ -180,5 +196,52 @@ void AAOV_PlayerController::UpdateSelection(float DeltaTime)
 
 void AAOV_PlayerController::SetSelectedUnits(TArray<AAOV_UnitMaster*> SelectedUnits)
 {
+	if (SelectedUnits.Num() > 0)
+	{
+		bIsUnitSelected = true;
+	}
+}
 
+void AAOV_PlayerController::CallSecondaryAction_Pressed()
+{
+	if (bIsUnitSelected)
+	{
+		if (GetHitResultUnderCursorByChannel(TraceChannel, false, HitMouseTrace))
+		{
+			// Local Attributes
+			/*Location of hit result under cursor*/
+			TargetLocation = HitMouseTrace.Location;
+
+			/*Decal Size*/
+			FVector DecalSize(15.0f, 30.0f, 30.0f);
+
+			// Methods
+			if (IsValid(PreviousLocationDecal))
+			{
+				/*Destroy decal if some movement decal is existing now*/
+				PreviousLocationDecal->DestroyComponent();
+
+				StopMovement();
+
+				/*Spawned Decal at location*/
+				PreviousLocationDecal = UGameplayStatics::SpawnDecalAtLocation(this, MovementDecal, DecalSize, TargetLocation, FRotator(90.0f, 0.0f, 0.0f), 0.0f);
+			}
+			else
+			{
+				/*Spawned Decal at location*/
+				PreviousLocationDecal = UGameplayStatics::SpawnDecalAtLocation(this, MovementDecal, DecalSize, TargetLocation, FRotator(90.0f, 0.0f, 0.0f), 0.0f);
+			}
+
+			for (AAOV_UnitMaster* Unit : MarqueeSelectionRef->SelectedUnits)
+			{
+				AAIController* AIController = UAIBlueprintHelperLibrary::GetAIController(Unit);
+				AIController->StopMovement();
+				AIController->MoveToLocation(TargetLocation, -1.0f, false, true, false, true, 0, true);
+			}
+		}
+	}
+	else
+	{
+		// GetUnitHUD
+	}
 }

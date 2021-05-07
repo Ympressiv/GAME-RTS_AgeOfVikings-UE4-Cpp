@@ -6,10 +6,13 @@
 #include "GameFramework/HUD.h"
 #include "../Interface/AOV_MarqueeSelection_IF.h"
 #include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Units/AOV_UnitMaster.h"
+#include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/Core/Player/AOV_PlayerController.h"
 #include "GameFramework/HUD.h"
 #include "RendererInterface.h"
-#include "GameFramework/PlayerController.h"
 #include "AOV_MarqueeSelection.generated.h"
+
+
+class AAOV_PlayerController;
 
 /**
  * 
@@ -31,7 +34,7 @@ public:
 
 	/*This is a refrence to the PlayerController*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
-	APlayerController* PlayerControllerRef;
+	AAOV_PlayerController* AOV_PlayerController;
 
 	/*This is a refrence to the Unit Master*/
 	UPROPERTY(EditAnywhere, Category = "Units")
@@ -39,23 +42,26 @@ public:
 
 	/*This is a refrence to the UnitMaster*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
-	AAOV_UnitMaster* UnitMasterRef;
+	AAOV_UnitMaster* SelectedUnitFromArea = Cast<AAOV_UnitMaster>(GetOwner());
 
 	/*Localization of Mouse cursor*/
 	float MouseLocationX;
 	float MouseLocationY;
 
+	/*Marquee Variables*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Marquee Variables")
 	FVector2D HoldingLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Marquee Variables")
 	FVector2D ClickedLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Marquee Variables")
 	FVector2D Subtraction; //Substraction = Holding - Clicked
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bool")
 	bool bIsDrawing;
 
 	/*Draw HUD*/
+	UFUNCTION(BlueprintCallable)
 	void DrawHUD() override;
-
 	UFUNCTION(BlueprintCallable)
 	void DrawMarquee();
 };

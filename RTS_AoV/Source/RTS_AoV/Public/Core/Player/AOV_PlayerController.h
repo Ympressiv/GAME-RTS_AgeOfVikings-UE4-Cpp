@@ -10,6 +10,8 @@
 #include "RTS_AoV/Public/Core/HUD/AOV_MarqueeSelection.h"
 #include "AOV_PlayerController.generated.h"
 
+class AAOV_MarqueeSelection;
+
 /**
  * 
  */
@@ -27,7 +29,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	/*Methods*/
+
+/* Methods */
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupInputComponent();
@@ -58,16 +62,49 @@ public:
 
 	virtual void CallPrimaryAction_Released();
 
-	/*Attributes*/
+	virtual void CallSecondaryAction_Pressed();
+
+	/*Selection Units Update*/
+	UFUNCTION()
+	void UpdateSelection(float DeltaTime);
+
+	/*Set selected units*/
+	UFUNCTION(BlueprintCallable, Category = "UnitControl")
+	virtual void SetSelectedUnits(TArray<AAOV_UnitMaster*> SelectedUnits);
+
+/* Attributes */
+	/*Get Hit Result Under Cursor By Trace Channel*/
+	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
+	FHitResult HitMouseTrace;
+
+	ETraceTypeQuery TraceChannel;
+
+	/*Holding pressed LeftMouseButton*/
+	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
+	float HoldingTime;
+
+	/*Sight Distance*/
+	float SightDistance;
+
+	/*Target Location of trace hit from: Get Hit Result Under Cursor By Trace Channel */
+	FVector TargetLocation;
+
+	/*Decal spawned in hit result*/
+	UMaterialInterface* MovementDecal;
+
+	/*Player is holding input?*/
+	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
+	bool bIsHoldingInput;
+
+	/*Is Unit Selected?*/
+	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
+	bool bIsUnitSelected;
 
 	/*Output of SetCursorWorldPosition*/
 	FVector RelativeCursorsLocationInGame;
 
 	/*Refrence to SetCursorWorldPosition*/
 	FVector SetCursorWorldPositionRef;
-
-	/*Sight Distance*/
-	float SightDistance;
 
 	/*This is a refrence to the Camera Pawn*/
 	UPROPERTY(Transient)
@@ -96,18 +133,8 @@ public:
 	/*This is a refrence to the MarqueeSelectionInterface_Ref*/
 	IAOV_MarqueeSelection_IF* MarqueeSelectionInterface_Ref;
 
-	UFUNCTION()
-	void UpdateSelection(float DeltaTime);
+	/*Spawned Decal at location*/
+	UDecalComponent* PreviousLocationDecal;
 
-	/*Set selected units*/
-	UFUNCTION(BlueprintCallable, Category = "UnitControl")
-	void SetSelectedUnits(TArray<AAOV_UnitMaster*> SelectedUnits);
 
-	/*Holding pressed LeftMouseButton*/
-	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
-	float HoldingTime;
-
-	/*Player is holding input?*/
-	UPROPERTY(EditAnywhere, Category = "MarqeeVariables")
-	bool bIsHoldingInput;
 };
