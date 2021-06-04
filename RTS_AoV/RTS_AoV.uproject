@@ -10,8 +10,15 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"AIModule"
+				"AIModule",
+				"NavigationSystem"
 			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "Text3D",
+			"Enabled": true
 		}
 	]
 }

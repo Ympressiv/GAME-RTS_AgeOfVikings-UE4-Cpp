@@ -8,6 +8,7 @@
 #include "CameraPawn.h"
 #include "GameFramework/PlayerController.h"
 #include "RTS_AoV/Public/Core/HUD/AOV_MarqueeSelection.h"
+#include "/Robocze_ProjektyGier/GAME-RTS_AgeOfVikings-UE4-Cpp/RTS_AoV/Source/RTS_AoV/Public/HexGrid/HexGrid.h"
 #include "AOV_PlayerController.generated.h"
 
 class AAOV_MarqueeSelection;
@@ -62,6 +63,7 @@ public:
 
 	virtual void CallPrimaryAction_Released();
 
+	UFUNCTION(BlueprintCallable, Category = "UnitControl")
 	virtual void CallSecondaryAction_Pressed();
 
 	/*Selection Units Update*/
@@ -135,6 +137,4 @@ public:
 
 	/*Spawned Decal at location*/
 	UDecalComponent* PreviousLocationDecal;
-
-
 };

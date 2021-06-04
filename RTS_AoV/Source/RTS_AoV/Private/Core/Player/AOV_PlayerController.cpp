@@ -43,6 +43,7 @@ void AAOV_PlayerController::BeginPlay()
 	CameraMovementRef = CameraPawnRef->PawnMovementComponent;
 	MarqueeSelectionRef = Cast<AAOV_MarqueeSelection>(GetHUD());
 	MarqueeSelectionInterface_Ref = Cast<IAOV_MarqueeSelection_IF>(MarqueeSelectionRef);
+
 	/*Show Mouse*/
 	bShowMouseCursor = true;
 }
@@ -236,7 +237,7 @@ void AAOV_PlayerController::CallSecondaryAction_Pressed()
 			{
 				AAIController* AIController = UAIBlueprintHelperLibrary::GetAIController(Unit);
 				AIController->StopMovement();
-				AIController->MoveToLocation(TargetLocation, -1.0f, false, true, false, true, 0, true);
+				AIController->MoveToLocation(TargetLocation, -1.0f, false, true, false, false, 0, true);
 			}
 		}
 	}
