@@ -237,7 +237,7 @@ void AAOV_PlayerController::CallSecondaryAction_Pressed()
 			{
 				AAIController* AIController = UAIBlueprintHelperLibrary::GetAIController(Unit);
 				AIController->StopMovement();
-				AIController->MoveToLocation(TargetLocation, -1.0f, false, true, false, false, 0, true);
+				AIController->MoveToLocation(TargetLocation, -1.0f, true, true, true, false, 0, true);
 			}
 		}
 	}
